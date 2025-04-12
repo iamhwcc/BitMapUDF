@@ -10,7 +10,7 @@ import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectIn
  * @author stalwarthuang
  * @since 2025-04-11 星期五 16:56:52
  */
-public class BitMapAdd extends GenericUDAFEvaluator {
+public class BitMapAdd_bk extends GenericUDAFEvaluator {
     private BinaryObjectInspector objectInspector;
 
     @Override

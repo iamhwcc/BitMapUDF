@@ -6,6 +6,7 @@ import org.roaringbitmap.RoaringBitmap;
 import java.io.*;
 
 /**
+ * BitMap 序列化 & 反序列化工具函数
  * @author stalwarthuang
  * @since 2025-04-11 星期五 21:53:10
  */

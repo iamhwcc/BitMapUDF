@@ -1,5 +1,6 @@
-package com.roaringbitmapudaf;
+package com.roaringbitmapudaf.and_or_xor_count;
 
+import com.roaringbitmapudaf.BitMapUtil;
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
@@ -13,43 +14,44 @@ import java.io.IOException;
 
 /**
  * @author stalwarthuang
- * @since 2025-04-11 星期五 22:38:35
+ * @since 2025-04-12 星期六 17:46:28
  */
-@Description(name = "bitmap_or", value = "return bitmap1 or bitmap2")
-public class BitMapOrUDF extends GenericUDF {
-    private BinaryObjectInspector arg1OI;
-    private BinaryObjectInspector arg2OI;
+@Description(name = "bitmap_xor", value = "return bitmap1 xor bitmap2")
+public class BitMapXorUDF extends GenericUDF {
+    private BinaryObjectInspector input1OI;
+    private BinaryObjectInspector input2OI;
+
     @Override
     public ObjectInspector initialize(ObjectInspector[] objectInspectors) throws UDFArgumentException {
-        if(objectInspectors.length != 2) {
-            throw new UDFArgumentException("bitmap_or() takes exactly two arguments");
+        if (objectInspectors.length != 2) {
+            throw new UDFArgumentException("bitmap_xor expects 2 arguments");
         }
         ObjectInspector arg1 = objectInspectors[0];
         ObjectInspector arg2 = objectInspectors[1];
-        if(!(arg1 instanceof BinaryObjectInspector) || !(arg2 instanceof BinaryObjectInspector)) {
-            throw new UDFArgumentException("btm1 and btm2 must be binary objects");
+        if (!(arg1 instanceof BinaryObjectInspector) || !(arg2 instanceof BinaryObjectInspector)) {
+            throw new UDFArgumentException("bitmap_xor expects binary arguments");
         }
-        this.arg1OI = (BinaryObjectInspector) arg1;
-        this.arg2OI = (BinaryObjectInspector) arg2;
+        this.input1OI = (BinaryObjectInspector) arg1;
+        this.input2OI = (BinaryObjectInspector) arg2;
         return PrimitiveObjectInspectorFactory.javaByteArrayObjectInspector;
     }
 
     @Override
     public Object evaluate(DeferredObject[] deferredObjects) throws HiveException {
-        byte[] a = this.arg1OI.getPrimitiveJavaObject(deferredObjects[0].get());
-        byte[] b = this.arg2OI.getPrimitiveJavaObject(deferredObjects[1].get());
+        byte[] byte1 = this.input1OI.getPrimitiveJavaObject(deferredObjects[0].get());
+        byte[] byte2 = this.input2OI.getPrimitiveJavaObject(deferredObjects[1].get());
         try {
-            RoaringBitmap btm1 = BitMapUtil.deserializeFromBytes(a);
-            RoaringBitmap btm2 = BitMapUtil.deserializeFromBytes(b);
-            btm1.or(btm2);
+            RoaringBitmap btm1 = BitMapUtil.deserializeFromBytes(byte1);
+            RoaringBitmap btm2 = BitMapUtil.deserializeFromBytes(byte2);
+            btm1.xor(btm2);
             return BitMapUtil.serializeToBytes(btm1);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new HiveException(e);
         }
     }
 
     @Override
     public String getDisplayString(String[] strings) {
-        return "Usage: bitmap_or(bitmap1, bitmap2)";
+        return "bitmap_xor(bitmap1, bitmap2)";
     }
 }
