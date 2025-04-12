@@ -20,10 +20,10 @@ import java.io.IOException;
  * @since 2025-04-11 星期五 21:18:48
  */
 @Description(name = "to_bitmap", value = "return a bimap")
-public class To_BitMap extends AbstractGenericUDAFResolver {
-
+public class ToBitMap extends AbstractGenericUDAFResolver {
     /**
      * 检查
+     *
      * @param parameters
      * @return
      * @throws SemanticException
@@ -45,9 +45,9 @@ public class To_BitMap extends AbstractGenericUDAFResolver {
         // PARTIAL2: 部分聚合到部分聚合，调用merge和terminatePartial --> combine阶段
         // FINAL: 部分聚合到完全聚合，调用merge和terminate --> reduce阶段
         // COMPLETE: 从原始数据直接到完全聚合 --> map阶段，并且没有reduce
+
         // For PARTIAL1 and COMPLETE: ObjectInspectors for original data
         private PrimitiveObjectInspector inputOI;
-
         // For PARTIAL2 and FINAL: ObjectInspectors for partial aggregations
         private BinaryObjectInspector internalMergeOI;
 
@@ -81,6 +81,7 @@ public class To_BitMap extends AbstractGenericUDAFResolver {
 
         /**
          * 每条数据和缓冲区进行运算
+         *
          * @param aggregationBuffer
          * @param objects
          * @throws HiveException
@@ -100,7 +101,7 @@ public class To_BitMap extends AbstractGenericUDAFResolver {
                 // 加入缓冲区
                 bf.add(row);
             } catch (NumberFormatException e) {
-                throw new HiveException(e);
+                throw new HiveException("Serialization failed: " + e.getMessage());
             }
         }
 
@@ -119,7 +120,7 @@ public class To_BitMap extends AbstractGenericUDAFResolver {
                 // 把别人的缓冲区byte[] 反序列化后，和自己or运算
                 bf.or(BitMapUtil.deserializeFromBytes(bytes));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new HiveException("Serialization failed: " + e.getMessage());
             }
         }
 
@@ -131,7 +132,7 @@ public class To_BitMap extends AbstractGenericUDAFResolver {
                 // 缓冲区序列化为byte[]返回
                 return BitMapUtil.serializeToBytes(bf.getRoaringBitmap());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new HiveException("Serialization failed: " + e.getMessage());
             }
         }
     }

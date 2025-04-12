@@ -75,7 +75,7 @@ public class BitMapUnionUDAF extends AbstractGenericUDAFResolver {
                 RoaringBitmap btm = BitMapUtil.deserializeFromBytes(bytes);
                 bf.or(btm);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new HiveException("Serialization failed: " + e.getMessage());
             }
         }
 
@@ -85,7 +85,7 @@ public class BitMapUnionUDAF extends AbstractGenericUDAFResolver {
             try {
                 return BitMapUtil.serializeToBytes(bf.getRoaringBitmap());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new HiveException("Serialization failed: " + e.getMessage());
             }
         }
     }

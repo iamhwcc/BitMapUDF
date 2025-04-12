@@ -28,12 +28,12 @@ public class BitmapContainsNum extends GenericUDF {
 
     @Override
     public ObjectInspector initialize(ObjectInspector[] parameters) throws UDFArgumentException {
-        if(parameters.length != 2) {
+        if (parameters.length != 2) {
             throw new UDFArgumentException("bitmap_contains_num requires 2 arguments");
         }
         ObjectInspector arg1 = parameters[0];
         ObjectInspector arg2 = parameters[1];
-        if(!(arg1 instanceof BinaryObjectInspector) || !(arg2 instanceof PrimitiveObjectInspector)) {
+        if (!(arg1 instanceof BinaryObjectInspector) || !(arg2 instanceof PrimitiveObjectInspector)) {
             throw new UDFArgumentException("The first parameter of bitmap_contains_num must be a byte[] " +
                     "and the second parameter of a int");
         }
@@ -51,11 +51,11 @@ public class BitmapContainsNum extends GenericUDF {
         try {
             RoaringBitmap btm = BitMapUtil.deserializeFromBytes(bytes);
             Iterator<Integer> iterator = btm.iterator();
-            if(btm.isEmpty()) {
+            if (btm.isEmpty()) {
                 return false;
             } else {
-                while(iterator.hasNext()) {
-                    if(!btm.contains(iterator.next())) {
+                while (iterator.hasNext()) {
+                    if (!btm.contains(iterator.next())) {
                         return false;
                     }
                 }
