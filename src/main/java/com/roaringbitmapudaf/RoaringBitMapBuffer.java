@@ -9,6 +9,7 @@ import java.io.*;
 
 /**
  * 缓冲区
+ *
  * @author stalwarthuang
  * @since 2025-04-11 星期五 16:41:13
  */
@@ -36,28 +37,28 @@ public class RoaringBitMapBuffer extends GenericUDAFEvaluator.AbstractAggregatio
     }
 
     /**
-     *  add a value
+     * add a value
      */
     public void add(int value) {
         this.roaringBitMap.add(value);
     }
 
     /**
-     *  and
+     * and
      */
     public void and(RoaringBitmap other) {
         this.roaringBitMap.and(other);
     }
 
     /**
-     *  or
+     * or
      */
     public void or(RoaringBitmap other) {
         this.roaringBitMap.or(other);
     }
 
     /**
-     *  xor
+     * xor
      */
     public void xor(RoaringBitmap other) {
         this.roaringBitMap.xor(other);

@@ -1,6 +1,5 @@
-package com.roaringbitmapudaf.array2bitmap;
+package com.roaringbitmapudaf;
 
-import com.roaringbitmapudaf.BitMapUtil;
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
@@ -25,11 +24,11 @@ public class BitMapToArrayUDF extends GenericUDF {
 
     @Override
     public ObjectInspector initialize(ObjectInspector[] objectInspectors) throws UDFArgumentException {
-        if(objectInspectors.length != 1) {
+        if (objectInspectors.length != 1) {
             throw new UDFArgumentException("bitmap_to_array() takes exactly one argument");
         }
         ObjectInspector o = objectInspectors[0];
-        if(!(o instanceof BinaryObjectInspector)) {
+        if (!(o instanceof BinaryObjectInspector)) {
             throw new UDFArgumentException("argument is not a BinaryObjectInspector");
         }
         this.inputOI = (BinaryObjectInspector) o;
@@ -44,7 +43,7 @@ public class BitMapToArrayUDF extends GenericUDF {
         List<Integer> res = new ArrayList<>();
         try {
             Iterator<Integer> iterator = BitMapUtil.deserializeFromBytes(bytes).iterator();
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 res.add(iterator.next());
             }
         } catch (IOException e) {

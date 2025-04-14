@@ -1,6 +1,5 @@
-package com.roaringbitmapudaf.array2bitmap;
+package com.roaringbitmapudaf;
 
-import com.roaringbitmapudaf.BitMapUtil;
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
@@ -14,8 +13,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @description 数组转BitMap，并以byte[]输出至hive存储
  * @author stalwarthuang
+ * @description 数组转BitMap，并以byte[]输出至hive存储
  * @since 2025-04-12 星期六 17:55:07
  */
 @Description(name = "array_to_bitmap", value = "convert a array to a bitmap")
@@ -25,11 +24,11 @@ public class ArrayToBitMapUDF extends GenericUDF {
 
     @Override
     public ObjectInspector initialize(ObjectInspector[] objectInspectors) throws UDFArgumentException {
-        if(objectInspectors.length != 1) {
+        if (objectInspectors.length != 1) {
             throw new UDFArgumentException("ArrayToBitMapUDF requires exactly one argument");
         }
         ObjectInspector o = objectInspectors[0];
-        if(!(o instanceof ListObjectInspector)) {
+        if (!(o instanceof ListObjectInspector)) {
             throw new UDFArgumentException("ArrayToBitMapUDF requires a list argument");
         }
         this.listOI = (ListObjectInspector) o;
@@ -40,7 +39,7 @@ public class ArrayToBitMapUDF extends GenericUDF {
     public Object evaluate(DeferredObject[] deferredObjects) throws HiveException {
         List<?> list = this.listOI.getList(deferredObjects[0].get());
         RoaringBitmap bitmap = new RoaringBitmap();
-        for(Object o : list) {
+        for (Object o : list) {
             bitmap.add(Integer.parseInt(o.toString()));
         }
         try {

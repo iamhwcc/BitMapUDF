@@ -1,6 +1,5 @@
-package com.roaringbitmapudaf.contains;
+package com.roaringbitmapudaf;
 
-import com.roaringbitmapudaf.BitMapUtil;
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
@@ -47,22 +46,13 @@ public class BitmapContainsNum extends GenericUDF {
         // 拿到byte[]方法
         byte[] bytes = this.inputOI1.getPrimitiveJavaObject(deferredObjects[0].get());
         // 拿到int方法
-        int n = PrimitiveObjectInspectorUtils.getInt(deferredObjects[1], this.inputOI2);
+        // deferredObjects[index].get()
+        int n = PrimitiveObjectInspectorUtils.getInt(deferredObjects[1].get(), this.inputOI2);
         try {
             RoaringBitmap btm = BitMapUtil.deserializeFromBytes(bytes);
-            Iterator<Integer> iterator = btm.iterator();
-            if (btm.isEmpty()) {
-                return false;
-            } else {
-                while (iterator.hasNext()) {
-                    if (!btm.contains(iterator.next())) {
-                        return false;
-                    }
-                }
-            }
-            return true;
+            return btm.contains(n);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new HiveException("Serialization failed: " + e.getMessage());
         }
     }
 

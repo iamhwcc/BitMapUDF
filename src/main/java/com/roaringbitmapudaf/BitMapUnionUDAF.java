@@ -58,7 +58,7 @@ public class BitMapUnionUDAF extends AbstractGenericUDAFResolver {
             // 由于聚合组内的bitmap，所以直接merge
             Object o = objects[0];
             if (o != null) {
-                merge(aggregationBuffer, objects);
+                merge(aggregationBuffer, o);
             }
         }
 

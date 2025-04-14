@@ -7,6 +7,7 @@ import java.io.*;
 
 /**
  * BitMap 序列化 & 反序列化工具函数
+ *
  * @author stalwarthuang
  * @since 2025-04-11 星期五 21:53:10
  */
@@ -14,6 +15,7 @@ import java.io.*;
 public class BitMapUtil {
     /**
      * 序列化 RoaringBitMap -> byte[]
+     *
      * @param bitmap
      * @return
      * @throws IOException
@@ -28,13 +30,14 @@ public class BitMapUtil {
 
     /**
      * 反序列化 byte[] -> RoaringBitMap
+     *
      * @param bytes
      * @return
      * @throws IOException
      */
     public static RoaringBitmap deserializeFromBytes(byte[] bytes) throws IOException {
         RoaringBitmap btm = new RoaringBitmap();
-        if(bytes == null) {
+        if (bytes == null) {
             return btm;
         }
         ByteArrayInputStream stream = new ByteArrayInputStream(bytes);

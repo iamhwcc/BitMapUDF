@@ -1,6 +1,5 @@
-package com.roaringbitmapudaf.and_or_xor_count;
+package com.roaringbitmapudaf;
 
-import com.roaringbitmapudaf.BitMapUtil;
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
@@ -19,13 +18,14 @@ import java.io.IOException;
 @Description(name = "bitmap_count", value = "return cardinality of a bitmap")
 public class BitMapCountUDF extends GenericUDF {
     private BinaryObjectInspector inputOI1;
+
     @Override
     public ObjectInspector initialize(ObjectInspector[] objectInspectors) throws UDFArgumentException {
-        if(objectInspectors.length != 1){
+        if (objectInspectors.length != 1) {
             throw new UDFArgumentException("bitmap_count requires exactly one argument");
         }
         ObjectInspector objectInspector = objectInspectors[0];
-        if(!(objectInspector instanceof BinaryObjectInspector)){
+        if (!(objectInspector instanceof BinaryObjectInspector)) {
             throw new UDFArgumentException("bitmap_count requires a binary object");
         }
         this.inputOI1 = (BinaryObjectInspector) objectInspectors[0];

@@ -1,6 +1,5 @@
-package com.roaringbitmapudaf.and_or_xor_count;
+package com.roaringbitmapudaf;
 
-import com.roaringbitmapudaf.BitMapUtil;
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
