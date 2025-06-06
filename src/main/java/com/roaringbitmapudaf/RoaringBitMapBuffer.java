@@ -2,10 +2,6 @@ package com.roaringbitmapudaf;
 
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDAFEvaluator;
 import org.roaringbitmap.RoaringBitmap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.*;
 
 /**
  * 缓冲区
@@ -14,8 +10,6 @@ import java.io.*;
  * @since 2025-04-11 星期五 16:41:13
  */
 public class RoaringBitMapBuffer extends GenericUDAFEvaluator.AbstractAggregationBuffer {
-    private static final Logger log = LoggerFactory.getLogger(RoaringBitMapBuffer.class);
-
     private RoaringBitmap roaringBitMap;
 
     public RoaringBitMapBuffer() {

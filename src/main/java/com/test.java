@@ -2,6 +2,7 @@ package com;
 
 import org.roaringbitmap.RoaringBitmap;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -11,10 +12,7 @@ import java.util.Iterator;
  */
 public class test {
     public static void main(String[] args) {
-        RoaringBitmap btm = new RoaringBitmap();
-        btm.add(1,7);
-        for(int value:btm) {
-            System.out.println(value);
-        }
+        Integer[] nums1 = new Integer[] { 1, 2, 3, 4, 5 };
+        Arrays.stream(nums1).forEach(System.out::println);
     }
 }
